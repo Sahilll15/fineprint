@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme {
+  --color-frame: #4a1a20;
+  --color-frame-deep: #36121a;
+  --color-frame-line: #6b2a33;
+  --color-paper: #fbf8f7;
+  --color-card: #ffffff;
+  --color-blush: #f2dcdf;
+  --color-blush-soft: #f8ecee;
+  --color-rose: #9a5c66;
+  --color-rose-deep: #7d4550;
+  --color-rose-wash: #f4e6e8;
+  --color-line: #ece3e4;
+  --color-line-strong: #dccfd1;
+  --color-ink: #2a1c1f;
+  --color-ink-soft: #6a5a5e;
+  --color-ink-faint: #7d6d71;
+  --color-high: #a3303f;
+  --color-high-bg: #f9e3e6;
+  --color-high-line: #d9909a;
+  --color-mid: #95591b;
+  --color-mid-bg: #fbefdf;
+  --color-mid-line: #ddb07a;
+  --color-low: #4f6b55;
+  --color-low-bg: #e9f1eb;
+
+  --font-display: var(--font-instrument), Georgia, serif;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
+  --font-read: var(--font-newsreader), Georgia, serif;
+
+  --animate-rise: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+  --animate-drift: drift 14s ease-in-out infinite alternate;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes shimmer {
+    0%,
+    100% {
+      opacity: 0.45;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  @keyframes drift {
+    from {
+      transform: translate(-6%, -4%) scale(1);
+    }
+    to {
+      transform: translate(6%, 5%) scale(1.08);
+    }
+  }
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--color-frame);
+    color: var(--color-ink);
+  }
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-blush);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-rose-deep);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+.glow {
+  background: radial-gradient(closest-side, rgba(226, 180, 188, 0.75), rgba(242, 220, 223, 0.35) 55%, transparent 100%);
+}
+
+.paper-lines {
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(154, 92, 102, 0.06) 31px 32px);
+}
+
+.gauge-arc {
+  animation: gauge 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+}
+@keyframes gauge {
+  from {
+    stroke-dashoffset: var(--len);
+  }
+}
