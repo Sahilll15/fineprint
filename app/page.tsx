@@ -93,6 +93,7 @@ export default function Home() {
             {state.kind !== 'done' && (
               <section className="mx-auto max-w-3xl pt-10 pb-12 text-center sm:pt-16">
                 <h1 className="animate-rise font-display text-[52px] leading-[0.98] tracking-[-0.01em] text-ink sm:text-[84px]">
+                  <span className="sr-only">FinePrint contract clause checker. </span>
                   Every clause,
                   <br />
                   <span className="text-rose/70 italic">read before you sign.</span>
