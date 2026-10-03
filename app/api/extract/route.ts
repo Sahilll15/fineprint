@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import { extractText, getDocumentProxy } from 'unpdf';
+import { MAX_PDF_BYTES as MAX_BYTES } from '../../lib';
 import { check, tooMany } from '../../server/ratelimit';
-
-const MAX_BYTES = 8 * 1024 * 1024;
 
 export async function POST(req: Request) {
   const gate = await check(req, 'extract');

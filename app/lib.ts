@@ -1,5 +1,6 @@
 export const MAX_CHARS = 20_000;
 export const MAX_CLAUSES = 25;
+export const MAX_PDF_BYTES = 8 * 1024 * 1024;
 export const FLAG_AT = 0.5;
 
 export const CATEGORY_IDS = [

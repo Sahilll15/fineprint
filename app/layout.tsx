@@ -13,16 +13,17 @@ const display = Instrument_Serif({
 
 const sans = Hanken_Grotesk({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600'],
   display: 'swap',
   variable: '--font-hanken',
 });
 
+// Only used for typed or reviewed contract text, never in the first paint.
 const reading = Newsreader({
   subsets: ['latin'],
   weight: ['400', '500'],
-  style: ['normal', 'italic'],
   display: 'swap',
+  preload: false,
   variable: '--font-newsreader',
 });
 
