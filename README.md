@@ -18,6 +18,19 @@ FinePrint reads a contract clause by clause and marks it up like a redlined docu
 
 A longer recording is in [docs/demo.mp4](docs/demo.mp4).
 
+## Architecture
+
+![FinePrint architecture: the browser optionally uploads a PDF to an extract route, then posts the contract text to an analyze route; both count requests in Upstash Redis, and analyze scores each clause with TypeSafe Jev through Vercel AI Gateway, falling back to the direct TypeSafe API](docs/architecture.svg)
+
+1. An uploaded PDF goes to `POST /api/extract` (dashed, optional), which takes its own rate limit slot and pulls the text out with unpdf. No model is called.
+2. The browser posts the contract text to `POST /api/analyze`.
+3. The route splits the clauses, then takes a rate limit slot in Upstash Redis and answers 429 when the window is used up.
+4. It reviews each clause in its own Jev call through Vercel AI Gateway (`typesafe-ai/jev`), eight at a time.
+5. Jev answers seven risk flags, an aggressiveness score and a notice question. If the Gateway fails, the same questions go straight to the TypeSafe API (dashed path).
+6. The route scores and summarizes the clauses in `app/lib.ts` and the browser draws the redlined view and risk gauge.
+
+**Why it is built this way.** The TypeSafe and Gateway keys stay on the server. Jev only returns numbers, and risk levels and explanations are computed in code from them. Both routes are counted in Redis before any model call or PDF parsing, so the limits hold across Vercel instances.
+
 ## Stack
 
 Next.js 16 (App Router), React 19, Tailwind CSS v4, TypeScript and the Vercel AI SDK, deployed on Vercel. Jev calls go through Vercel AI Gateway and fall back to the TypeSafe API. Unit tests use the Node test runner.
