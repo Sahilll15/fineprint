@@ -40,8 +40,11 @@ npm test
 | `RATE_LIMIT_ANALYZE` | `5` | Reviews per IP per window |
 | `RATE_LIMIT_EXTRACT` | `5` | PDF uploads per IP per window |
 | `RATE_LIMIT_WINDOW_MS` | `3600000` | Rate limit window in milliseconds |
+| `KV_REST_API_URL`, `KV_REST_API_TOKEN` | none | Upstash Redis that holds the rate limit counts |
 
 Documents are capped at 20,000 characters and PDFs at 8MB.
+
+Rate limit counts are global across instances because they live in Upstash Redis, keyed per app and per IP, with IPv6 grouped by /64. The window starts at your first counted request. Without the Redis variables (local dev, tests) counts fall back to memory, and if Redis is set but unreachable the API answers 503 rather than letting requests through.
 
 ## Related
 

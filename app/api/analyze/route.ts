@@ -90,8 +90,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Could not find any clauses in that text.' }, { status: 400 });
   }
 
-  const gate = check(req, 'analyze');
-  if (!gate.ok) return tooMany(gate.retryAfter);
+  const gate = await check(req, 'analyze');
+  if (!gate.ok) return tooMany(gate);
 
   try {
     const reviewed = await pool(raw, CONCURRENCY, (c) => reviewClause(c, title));

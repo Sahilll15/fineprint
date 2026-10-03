@@ -5,8 +5,8 @@ import { check, tooMany } from '../../server/ratelimit';
 const MAX_BYTES = 8 * 1024 * 1024;
 
 export async function POST(req: Request) {
-  const gate = check(req, 'extract');
-  if (!gate.ok) return tooMany(gate.retryAfter);
+  const gate = await check(req, 'extract');
+  if (!gate.ok) return tooMany(gate);
 
   // formData() buffers the whole body, so reject oversized or unsized uploads first.
   const length = Number(req.headers.get('content-length') ?? NaN);
